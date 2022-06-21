@@ -1,0 +1,4 @@
+---
+dependencies_packages:
+  - apt-transport-https
+  - gnupg2

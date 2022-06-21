@@ -1,0 +1,8 @@
+---
+
+# Version of 'yarn' to install, defaults to latest version
+# yarn_version: "1.22.0-1"
+yarn_version: ""
+
+# Toggling this will uninstall from the server
+uninstall: false
