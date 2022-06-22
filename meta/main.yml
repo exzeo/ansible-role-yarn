@@ -1,0 +1,37 @@
+---
+dependencies: []
+
+galaxy_info:
+  role_name: yarn
+  author: exzeo
+  description: Ansible Role for installing yarn
+  company: "Exzeo"
+  license: MIT
+  min_ansible_version: "2.1"
+  namespace: exzeo
+
+  platforms:
+  - name: Ubuntu
+    versions:
+      - xenial
+      - bionic
+      - focal
+      - hirsute
+      - impish
+      - jammy
+  - name: Debian
+    versions:
+      - stretch
+      - buster
+      - bullseye
+      - bookworm
+
+  galaxy_tags:
+    - yarn
+    - nodejs
+    - npm
+    - packaging
+    - javascript
+    - debian
+    - ubuntu
+    - development

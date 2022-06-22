@@ -1,0 +1,59 @@
+---
+- name: Install dependencies
+  ansible.builtin.apt:
+    name: "{{ dependencies_packages }}"
+    state: present
+    force: true
+    update_cache: yes
+  register: package_ok
+  retries: 5
+  delay: 2
+  until: package_ok is success
+
+- name: Check current yarn version.
+  ansible.builtin.command: "apt list yarn -a"
+  register: yarn_installed
+  changed_when: false
+
+- name: install yarn
+  # when listed version doesnt match current version or
+  # when left blank and there is a new release
+  when: > 
+    ('yarn_version != "" and "now yarn_version" not in yarn_installed.stdout') or 
+    ('yarn_version == "" and "[installed]" not in yarn_current_version.stdout')
+  block:
+
+  - name: Add Yarn apt key
+    ansible.builtin.apt_key:
+      url: https://dl.yarnpkg.com/debian/pubkey.gpg
+
+  - name: Add Yarn repository
+    ansible.builtin.apt_repository:
+      repo: "deb https://dl.yarnpkg.com/debian/ stable main"
+      filename: yarn
+
+  - name: Install yarn latest
+    ansible.builtin.apt:
+      name: yarn
+      state: present
+      force: true
+      update_cache: yes
+      install_recommends: no
+    register: package_ok
+    retries: 5
+    delay: 2
+    until: package_ok is success
+    when: yarn_version|length == 0
+
+  - name: Install yarn version
+    ansible.builtin.apt:
+      name: yarn={{ yarn_version }}
+      state: present
+      force: true
+      update_cache: yes
+      install_recommends: no
+    register: package_ok
+    retries: 5
+    delay: 2
+    until: package_ok is success
+    when: yarn_version|length > 0

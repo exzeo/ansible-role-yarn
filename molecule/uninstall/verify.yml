@@ -1,0 +1,15 @@
+---
+
+- name: Verify
+  hosts: all
+
+  tasks:
+    - name: Check current yarn version.
+      command: "apt list yarn -a"
+      register: yarn_installed
+      changed_when: false
+
+    - name: Ensure yarn version output contains correct version string
+      assert:
+        that:
+          - '"all [installed]" not in yarn_installed.stdout'
